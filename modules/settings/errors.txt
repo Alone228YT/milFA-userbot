@@ -1,0 +1,3 @@
+
+startline1::: interval = 5 :::endline1
+startline2::: delete = True :::endline2

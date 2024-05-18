@@ -1,0 +1,18 @@
+How to write your own module for milFA
+
+1. Create new folder called "Author - Module name" in milFA/modules/
+2. You can write here your code
+3. Remember to create "__init__.py" and "requirements.py" files
+   __init__.py
+      Here you can leave __version__, __author__, __releaseDate__ and __requirements__ of the module
+   
+   __requirements__.py
+      Here you can leave module requirements
+
+4. Create a repository with your module on github
+5. You can share your module with others
+6. Done!
+
+
+Test module by Alone:
+https://github.com/Alone228YT/Test
