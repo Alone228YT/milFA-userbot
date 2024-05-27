@@ -9,7 +9,6 @@ echo -----------------------------
 echo.
 
 :loop
-python files_checker.py
 python main.py
 IF %ERRORLEVEL% EQU 1 GOTO end
 GOTO loop

@@ -1,6 +1,7 @@
 import asyncio
 from .emojis import emojis
 from .parse import rsfp
+from .db import get_settings
 
 commands = {
 ".lm": ".lm <i>github project link</i>",
@@ -32,25 +33,39 @@ async def create_error(title=None, exit_code=None, description=None):
 
 
 async def command_error(msg, command):
-	with open("modules/settings/errors.txt", "r") as f:
-		text = f.read()
-		interval = int(text.split("startline1::: ")[1].split(" :::endline1")[0].split(" = ")[1])
-		delete = eval(text.split("startline2::: ")[1].split(" :::endline2")[0].split(" = ")[1])
-	if interval > 0:
+	interval, delete = await get_settings("errors")
+	
+	if delete == "False":
+		emoji = emojis['🚫']
+		error = commands[command]
+		await msg.edit(f"{emoji} {error}")
+
+	elif interval == 0 and delete == "True":
+		await msg.delete()
+	
+	elif interval > 0 and delete == "True":
 		emoji = emojis['🚫']
 		error = commands[command]
 		await msg.edit(f"{emoji} {error}")
 		await asyncio.sleep(interval)
-	if delete:
 		await msg.delete()
 
 
 async def custom_command_error(msg, command): # 17 ¯\_(ツ)_/¯ 19
-	with open("modules/settings/errors.txt", "r") as f:
-		text = f.read()
-		interval = int(text.split("startline1::: ")[1].split(" :::endline1")[0].split(" = ")[1])
-		delete = eval(text.split("startline2::: ")[1].split(" :::endline2")[0].split(" = ")[1])
-	if interval > 0:
+	interval, delete = await get_settings("errors")
+
+	if delete == "False":
+		emoji = emojis['🚫']
+		if not command in custom_commands:
+			error = command
+		else:
+			error = custom_commands[command]
+		await msg.edit(f"{emoji} {error}")
+	
+	elif interval == 0 and delete == "True":
+		await msg.delete()
+	
+	elif interval > 0 and delete == "True":
 		emoji = emojis['🚫']
 		if not command in custom_commands:
 			error = command
@@ -58,7 +73,6 @@ async def custom_command_error(msg, command): # 17 ¯\_(ツ)_/¯ 19
 			error = custom_commands[command]
 		await msg.edit(f"{emoji} {error}")
 		await asyncio.sleep(interval)
-	if delete:
 		await msg.delete()
 
 
@@ -70,12 +84,17 @@ async def custom_error(msg, text=None, title=None, exit_code=None, description=N
 		error = await create_error(title, exit_code, description)
 	else:
 		raise TypeError("'custom_error' function must contain at least 2 arguments, counting 'msg' argument.")
-	with open("modules/settings/errors.txt", "r") as f:
-		file_text = f.read()
-		interval = int(file_text.split("startline1::: ")[1].split(" :::endline1")[0].split(" = ")[1])
-		delete = eval(file_text.split("startline2::: ")[1].split(" :::endline2")[0].split(" = ")[1])
-	if interval > 0:
+	
+	interval, delete = await get_settings("errors")
+	
+	if delete == "False":
+		await msg.edit(error)
+	
+	elif interval == 0 and delete == "True":
+		await msg.delete()
+	
+	elif interval > 0 and delete == "True":
 		await msg.edit(error)
 		await asyncio.sleep(interval)
-	if delete:
 		await msg.delete()
+		await msg.edit(error)

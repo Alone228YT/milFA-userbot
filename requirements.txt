@@ -1,2 +1,3 @@
 pyrogram
 git
+sqlite3
