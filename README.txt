@@ -5,11 +5,10 @@ module with which its creator can access your data).
 
 
 milFA IS CURRENTLY ONLY FOR WINDOWS OS, but you can fix it yourself ;)
-VERSION: 1.10
+VERSION: 1.11
 Release date: 18.05.2024
-Last update: 27.05.2024
+Last update: 22.07.2024
 Next update: 32.13.2024 After AD
-Don't forget to write down your API ID and API HASH in config.py
 
 
 How to install requirements (cmd):
